@@ -19,7 +19,29 @@ namespace ReviewApp.Data
 
         public DbSet<Review> Reviews { get; set; }  
         public DbSet<Reviewer> Reviewers { get; set; }  
-
-
+    }
+    protected override void OnModelCreating(ModelBuilder modelbuilder)
+    {
+        modelbuilder.Entity<PokemonCategory>()
+            .HasKey(pc => new { pc.Pokemon.Id, pc.CategoryId });
+        modelbuilder.Entity<PokemonCategory>()
+            .HasOne(p =>  p.Pokemon)
+            .WithMany(pc => pc.PokemonCategories)
+            .HasForeignKey(p => p.PokemonId);
+        modelbuilder.Entity<PokemonCategory>()
+            .HasOne(p => p.Category)
+            .WithMany(pc => pc.PokemonCategories)
+            .HasForeignKey(c => c.CategoryId);
+        
+        modelbuilder.Entity<PokemonOwner>()
+            .HasKey(po => new { po.PokemonId, po.OwnerId });
+        modelbuilder.Entity<PokemonOwner>()
+            .HasOne(p => p.Pokemon)
+            .WithMany(po => po.PokemonOwners)
+            .HasForeignKey(p => p.PokemonId);
+        modelbuilder.Entity<PokemonOwner>()
+            .HasOne(p => p.Owner)
+            .WithMany(po => po.PokemonOwners)
+            .HasForeignKey(o => o.OwnerId);
     }
 }
