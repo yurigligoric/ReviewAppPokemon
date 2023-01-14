@@ -23,7 +23,7 @@ namespace ReviewApp.Data
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
             modelbuilder.Entity<PokemonCategory>()
-                .HasKey(pc => new { pc.Pokemon.Id, pc.CategoryId });
+                .HasKey(pc => new { pc.PokemonId, pc.CategoryId });
             modelbuilder.Entity<PokemonCategory>()
                 .HasOne(p => p.Pokemon)
                 .WithMany(pc => pc.PokemonCategories)
